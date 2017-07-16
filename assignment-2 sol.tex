@@ -1,0 +1,346 @@
+\documentclass{article}
+\usepackage[utf8]{inputenc}
+\usepackage{upgreek}
+\usepackage{amsmath}
+\usepackage{graphicx}
+\usepackage{amssymb}
+\usepackage{epstopdf}
+\usepackage{color}
+\usepackage{textcomp}
+\usepackage{soul}
+\newtheorem{theorem}{Theorem}
+\usepackage{lmodern}
+\usepackage{listings}
+\usepackage{mathabx}
+\usepackage{fixmath}
+\usepackage{mathtools}
+\def\undertilde#1{\mathord{\vtop{\ialign{##\crcr
+$\hfil\displaystyle{#1}\hfil$\crcr\noalign{\kern1.5pt\nointerlineskip}
+$\hfil\tilde{}\hfil$\crcr\noalign{\kern1.5pt}}}}}
+\def\therefore{\boldsymbol{\text{ }
+\leavevmode
+\lower0.4ex\hbox{$\cdot$}
+\kern-.4em\raise0.5ex\hbox{$\cdot$}
+\kern-0.55em\lower0.4ex\hbox{$\cdot$}
+\thinspace\text{ }}}
+\hoffset=0pt\voffset=0pt\textwidth=520pt\textheight=740pt\topmargin=-70pt\oddsidemargin=-25pt\evensidemargin=20pt
+\renewcommand\baselinestretch{1.2}
+\newcommand{\inner}{\rule[-.01in]{.07in}{.005in}\vrule width.005in depth.01in height.07in\hspace{.03in}}
+
+\title{Assignment-2}
+\author{Romil Kadia}
+\date{April 2017}
+
+\begin{document}
+
+\maketitle
+
+\section{Give Data}
+Consider a elasto-plastic solid that obeys the von Misces yield condition
+\begin{equation}
+    \phi (\sigma , \sigma_{y}) = \sqrt{3 J_{2}} - \sigma_{y}\\
+\end{equation}
+\begin{equation}
+    \sigma_{y} = \sigma_{0} + \bar{\epsilon_{p}} \bar{H}
+\end{equation}
+\section{Mathematical Manipulation}
+\begin{equation}
+    A = \sigma_{y} = \frac{\partial \psi_{p}}{\partial \alpha}
+\end{equation}
+\begin{equation}
+    \sigma=\frac{\partial \psi_{e}}{\partial \epsilon_{e}}
+\end{equation}
+We know that,
+\begin{equation}
+    H= - \frac{\partial \psi}{\partial \sigma_{y}}
+\end{equation}
+\begin{equation}
+    N = \frac{\partial \psi}{\partial \sigma}
+\end{equation}
+Calculating some data prior so that that can be used later
+\begin{equation}
+    \frac{\partial^{2} \psi}{\partial \alpha^{2}}=\frac{\partial \sigma_{y}}{\partial \alpha} = \bar{H}
+\end{equation}
+We know that for Von-Misces:\\
+
+$\alpha = \bar{\epsilon_{p}}$
+\begin{equation}
+    \frac{\partial \phi}{\partial A} = \frac{\partial \phi}{\partial \sigma_{y}}= -1
+\end{equation}
+\begin{equation}
+    \Rightarrow H = - \frac{\partial \phi}{\partial A} = 1
+\end{equation}
+\pagebreak
+\section{For DDSDDE of continuum tangent stiffness matrix}
+From the constitutive equation
+\begin{equation}
+    \dot{\sigma} = \undertilde{C}:(\dot{\epsilon}- \dot{\lambda} N)
+\end{equation}
+\begin{equation}
+    \therefore \dot{\sigma}=(\undertilde{C}:\dot{\epsilon})-(\undertilde{C}:\dot{\lambda}N)
+\end{equation}
+For von-misces, using direct relation from notes:
+\begin{equation}
+    N= \sqrt{\frac{3}{2}} \frac{\sigma\prime}{||\sigma\prime||}
+\end{equation}
+We Know that when stress has reached yield surface then:\\
+$\phi=0$
+\begin{equation}
+    \dot{\phi}=0=\frac{\partial \phi}{\partial \sigma}:\sigma + \frac{\phi}{\sigma_{y}}:\sigma_{y}
+\end{equation}
+\begin{equation}
+    =\frac{\partial \phi}{\partial \sigma}: \undertilde{C}:(\dot{\epsilon} - \dot{\lambda} N) + \frac{\partial \phi}{\partial \sigma_{y}}:\dot{A}
+\end{equation}
+\begin{equation}
+    =N:\undertilde{C}:\dot{\epsilon} - N:\undertilde{C}:\dot{\lambda}N + \frac{\partial \phi}{\partial \sigma_{y}}: \frac{\partial^{2} \phi}{\partial \sigma_{y}^{2}}:\dot{\alpha}
+\end{equation}
+\begin{equation}
+    =N:\undertilde{C}:\dot{\epsilon} - N:\undertilde{C}:\dot{\lambda}N +\frac{\partial \phi}{\partial \sigma_{y}}:\frac{\partial^{2}}{\partial \sigma} :\dot{\lambda}H
+\end{equation}
+\begin{equation}
+    \therefore 0 = N:\undertilde{C}:\dot{\epsilon} - (N:\undertilde{C}: N +\frac{\partial \phi}{\partial \sigma_{y}}:\frac{\partial^{2} \phi}{\partial \sigma_{y}^{2}}:H)\dot{\lambda} 
+\end{equation}
+\begin{equation}
+    \Rightarrow \dot{\lambda} = \frac{N:\undertilde{C}:\dot{\epsilon}}{N: \undertilde{C}:N - \frac{\partial \phi}{\partial \sigma_{y}} :\frac{\partial^{2} \phi}{\partial \sigma_{y}^{2}}:H}
+\end{equation}
+Now, again for stress:
+\begin{equation}
+    \dot{\sigma}=\undertilde{C}:\dot{\epsilon}- \undertilde{C}:\dot{\lambda}N
+\end{equation}
+\begin{equation}
+    = \undertilde{C}:\dot{\epsilon}- \frac{(\undertilde{C}:N)\otimes (\undertilde{C}:N)}{N:\undertilde{C}:N -\frac{\partial \phi}{\partial \sigma_{y}} :\frac{\partial^{2} \phi}{\partial \sigma_{y}^{2}}:H}
+\end{equation}
+And
+\begin{equation}
+    \undertilde{C}:N= \sqrt{\frac{3}{2}} \frac{2\mu \sigma\prime}{||\sigma\prime||^{2}}
+\end{equation}
+\begin{equation}
+    \Rightarrow (\undertilde{C}:N)\otimes(\undertilde{C}:N)=\frac{6\mu^{2}}{||\sigma\prime||^{2}}(\sigma\prime\otimes\sigma\prime)
+\end{equation}
+But,
+\begin{equation}
+    \frac{\partial^{2} \phi}{\partial \epsilon_{p}^{2}} =\frac{\partial}{\partial \epsilon_{p}}(\frac{\partial \phi}{\partial \epsilon_{p}}) = \frac{\partial A}{\partial \epsilon_{p}}= \frac{\partial \sigma_{y}}{\partial \epsilon_{p}} = \bar{H}
+\end{equation}
+\begin{equation}
+    \Rightarrow \undertilde{C_{ep}} =\undertilde{C}- \frac{6\mu^{2} (\sigma\prime\otimes\sigma\prime)}{2\mu(\sigma\prime:\sigma\prime) +\bar{H}(\sigma:\sigma)}
+\end{equation}
+But to completely define this we need to find cauchy stress and its deviatoric component\\
+Given strain from abaqus
+\begin{equation}
+    \sigma_{ij}\prime= 2G\epsilon_{ij}\prime
+\end{equation}
+But,
+\begin{equation}
+    \epsilon_{ij}\prime= \epsilon_{ij} - \frac{\epsilon_{kk}\delta_{ij}}{3}
+\end{equation}
+\begin{equation}
+    \Rightarrow \sigma_{ij}\prime = 2G(\epsilon_{ij} - \frac{\epsilon_{kk}\delta_{ij}}{3})
+\end{equation}
+\begin{equation}
+    \sigma_{ij}\prime\otimes\sigma_{ij}\prime= 4G^{2}(\epsilon_{ij} - \frac{\epsilon_{kk}\delta_{ij}}{3})\otimes(\epsilon_{ij} - \frac{\epsilon_{kk}\delta_{ij}}{3})
+\end{equation}
+Similarly for Cauchy stress
+\begin{equation}
+    \sigma_{ij}=\sigma_{ij}\prime + \sigma_{kk}\frac{\delta_{ij}}{3}
+\end{equation}
+\begin{equation}
+    \Rightarrow C_{ijkl}^{ep}= C_{ijkl} - \frac{6\mu^{2} \sigma_{ij}\prime\sigma_{kl}\prime}{\bar{H}(\sigma_{cd}\sigma_{cd}) +3\mu(\sigma_{ab}\prime\sigma_{ab}\prime)}
+\end{equation}
+let, K=Constant
+\begin{equation}
+    K=\frac{6\mu^{2}}{\bar{H}(\sigma_{cd}\sigma_{cd}) +3\mu(\sigma_{ab} \prime\sigma_{ab}\prime)}
+\end{equation}
+DDSDDE in voight notation is as follows:\\
+DDSDDE=
+\begin{bmatrix}
+$\lambda +2\mu -K\sigma_{1}\prime\sigma_{1}\prime & \lambda-K\sigma_{1}\prime\sigma_{2}\prime & \lambda- K\sigma_{1}\prime\sigma_{3}\prime & -K\sigma_{1}\prime\sigma_{4}\prime & -K\sigma_{1}\prime\sigma_{5}\prime & -K\sigma_{1}\prime\sigma_{6}\prime$\\
+$--& \lambda +2\mu -K\sigma_{2}\prime\sigma_{2}\prime & \lambda-K\sigma_{3}\prime\sigma_{2}\prime & -K\sigma_{2}\prime\sigma_{4}\prime  & -K\sigma_{2}\prime\sigma_{5}\prime & -K\sigma_{2}\prime\sigma_{6}\prime$\\
+$--&--& \lambda +2\mu -K\sigma_{3}\prime\sigma_{3}\prime & -K\sigma_{3}\prime\sigma_{4}\prime & -K\sigma_{3}\prime\sigma_{5}\prime & -K\sigma_{3}\prime\sigma_{6}\prime$\\
+$--&--&--& \mu-K\sigma_{4}\prime\sigma_{4}\prime & -K\sigma_{4}\prime\sigma_{5}\prime & -K\sigma_{4}\prime\sigma_{6}\prime$\\
+$--&--&--&--& \mu-K\sigma_{5}\prime\sigma_{5}\prime & -K\sigma_{5}\prime\sigma_{6}\prime$\\
+$sym&--&--&--&--& \mu-K\sigma_{6}\prime\sigma_{6}\prime$\\
+\end{bmatrix}
+\pagebreak
+\section{Consistent tangent stiffness}
+From Abaqus we will get the value of strain and Dstrain and state variavle which will give plastic strain, all this values will be provided for time($t_{n}$)\\
+Deriving some useful relations:\\
+from equation-18
+\begin{equation}
+    \dot{\bar{\epsilon_{p}}}= -\dot{\lambda}
+\end{equation}
+\begin{equation}
+    \epsilon^{t}_{n+1}= \epsilon^{t}_{n} + \bigtriangleup\epsilon
+\end{equation}
+From now onwards all the values are calculated for time (n+1)\\
+so, no need to mention (n+1) as subscript everywhere
+\begin{equation}
+    \sigma^{t}_{n+1}=\undertilde{C}:\epsilon^{t}_{n+1}
+\end{equation}
+\begin{equation}
+    \sigma^{t}\prime=2G \epsilon^{t}\prime
+\end{equation}
+\begin{equation}
+    J_{2}=0.5(\sigma^{t}\prime:\sigma^{t}\prime)
+\end{equation}
+And,
+\begin{equation}
+    \phi = \sqrt{\frac{3}{2}(\sigma^{t}\prime:\sigma^{t}\prime)}-\sigma_{y}
+\end{equation}
+Proceeding with radial return algorithm and assuming that $\phi \geq 0$\\
+Next three equation are coupled which need to be solved to proceed further in radial return algo\\
+\begin{equation}
+    \epsilon_{e}=\epsilon^{t}_{e} -\bigtriangleup\lambda \sqrt{\frac{3}{2}}\frac{\sigma^{t}\prime}{||\sigma^{t}\prime||}
+\end{equation}
+\begin{equation}
+    \epsilon_{p}= \epsilon_{p(n)}+\bigtriangleup\lambda
+\end{equation}
+\begin{equation}
+    \phi_{(n+1)}=0
+\end{equation}
+But, from equation no. 35, equation 38 and 39 will be modified as
+\begin{equation}
+     \epsilon_{e}=\epsilon^{t}_{e} -\bigtriangleup\lambda \sqrt{\frac{3}{2}}\frac{1}{2G}\frac{\epsilon^{t}\prime}{||\epsilon^{t}\prime||}
+\end{equation}
+\begin{equation}
+    \phi = \sqrt{\frac{3}{2}(\epsilon^{t}\prime:\epsilon^{t}\prime)}-\sigma_{y}
+\end{equation}
+Breaking above eq.38 in volumetric and deviatoric components leads to:
+\begin{equation}
+    \epsilon_{e}\prime=\epsilon^{t}_{e}\prime -\bigtriangleup\lambda \sqrt{\frac{3}{2}}\frac{1}{2G}\frac{\epsilon^{t}\prime}{||\epsilon^{t}\prime||}
+\end{equation}
+\begin{equation}
+    \epsilon_{v}=\epsilon^{t}_{v}
+\end{equation}
+Further using this eq.43 and 44 to find respective components of stress, leads to:\\
+By using linear relation
+\begin{equation}
+    \frac{\sigma\prime}{||\sigma\prime||}=\frac{\sigma^{t}\prime}{||\sigma^{t}\prime||}
+\end{equation}
+\begin{equation}
+  \sigma\prime=(1-\sqrt{\frac{3}{2}} \frac{2\bigtriangleup\lambda G}{||\sigma^{t}\prime||})  \sigma^{t}\prime
+\end{equation}let,
+\begin{equation}
+    q^{t}=\sqrt{3J_{2}}
+\end{equation}
+\begin{equation}
+    =\sqrt{3 \sigma^{t}\prime:\sigma^{t}\prime}
+\end{equation}
+\begin{equation}
+    \Rightarrow \sigma\prime=(1-\sqrt{\frac{3}{2}} \frac{3\bigtriangleup\lambda G}{q^{t}})  \sigma^{t}\prime
+\end{equation}
+
+\pagebreak
+Final stress update equation is given by:
+\begin{equation}
+    \sigma_{(n+1)}=\sigma\prime_{(n+1)} + P_{(n+1)}
+\end{equation}
+\begin{equation}
+    = (1-\sqrt{\frac{3}{2}} \frac{3\bigtriangleup\lambda G}{q^{t}})  \sigma^{t}\prime + k\epsilon_{v(n+1)}
+\end{equation}
+\begin{equation}
+    =(1-\sqrt{\frac{3}{2}} \frac{3\bigtriangleup\lambda G}{q^{t}})2G \epsilon^{t}\prime +k\epsilon_{v(n+1)}
+\end{equation}
+By using the relation for fourth order identity tensor to obtain final expression:
+\begin{equation}
+    A\prime = I_{d}: A
+\end{equation}
+where,
+\begin{equation}
+    I_{d}=\frac{1}{2}(\delta_{ik}\delta_{jl}+\delta_{il}\delta_{jk})-(\frac{1}{3}\delta_{ij}\delta_{kl})
+\end{equation}
+\begin{equation}
+    \Rightarrow \sigma_{(n+1)}=\undertilde{C}:\epsilon^{t} + (\undertilde{H(\phi)}I_{d}\frac{6G^{2} \bigtriangleup\lambda}{q_{t}}):\epsilon^{t}
+\end{equation}
+where, $\undertilde{H(\phi)}$ is heaviside function\\
+we are neglecting heaviside function as this relation is used to derive tangent stiffness matrix knowing that $\phi \geq 0$\\
+using inditial notation now
+\begin{equation}
+    \therefore \sigma_{ij}= C_{ijkl}\epsilon^{t}_{kl} -\frac{6G^{2} \bigtriangleup\lambda}{q^{t}}(\frac{\delta_{ik}\delta_{jl} \epsilon^{t}_{kl}}{2} +\frac{\delta_{il}\delta_{jk} \epsilon^{t}_{kl}}{2}- \frac{\delta_{ij}\delta_{kl} \epsilon^{t}_{kl}}{3})
+\end{equation}
+\begin{equation}
+    = C_{ijkl}\epsilon^{t}_{kl} -3G^{2}\frac{\bigtriangleup\lambda}{q^{t}}(\epsilon^{t}_{ij}+\epsilon^{t}_{ji}) +2G^{2}\frac{\bigtriangleup\lambda}{q^{t}}\delta_{ij}\delta_{kl}\epsilon^{t}_{kl}
+\end{equation}
+\begin{equation}
+    = C_{ijkl}\epsilon^{t}_{kl}-6G^{2}\frac{\bigtriangleup\lambda}{q^{t}}\epsilon^{t}_{ij}+2G^{2}\frac{\bigtriangleup\lambda}{q^{t}}\delta_{ij}\epsilon^{t}_{kl}
+\end{equation}
+Deriving some useful relations which are going to be required in further part of derivation
+\begin{equation}
+    q^{t}=2G\sqrt{3\epsilon^{t}\prime:\epsilon^{t}\prime}
+\end{equation}
+\begin{equation}
+    =2G\sqrt{3(\epsilon_{ij}-\frac{\epsilon_{mm}\delta_{ij}}{3})(\epsilon_{ij}-\frac{\epsilon_{kk}\delta_{ij}}{3})}
+\end{equation}
+\begin{equation}
+    =2G\sqrt{3(\epsilon^{t}_{ij}\epsilon^{t}_{ij}- \frac{2}{3}\epsilon^{2}_{kk} +\frac{1}{3} \epsilon^{2}_{kk})}
+\end{equation}
+\begin{equation}
+    \therefore q^{t}=2G\sqrt{3(\epsilon^{t}_{ij}\epsilon^{t}_{ij}- \frac{1}{3}\epsilon^{2}_{kk})}
+\end{equation}
+using the eq. 45 and 49
+\begin{equation}
+    q^{t} = (3G+\bar{H})\bigtriangleup\lambda + \bar{H}\bar{\epsilon_{(n)}}+\sigma_{0}
+\end{equation}
+\begin{equation}
+    \therefore \bigtriangleup\lambda = \frac{q^{t}+ \bar{H}\bar{\epsilon_{(n)}}}{3G+\bar{H}}
+\end{equation}
+Now we will differentiate eq. 63 and 64 w.r.t $\epsilon^{t}_{kl}$ which is elastic only
+\begin{equation}
+    \frac{\partial q^{t}}{\partial \epsilon^{t}_{kl}}=\frac{G\sqrt{3}}{\sqrt{3(\epsilon^{t}_{ij}\epsilon^{t}_{ij}- \frac{1}{3}\epsilon^{2}_{kk})}}(\epsilon^{t}_{ij}(\delta_{ik}\delta_{jl} + \delta_{il}\delta_{jk}) - \frac{2\epsilon^{t}_{mm}}{3} (\delta_{ij}\delta_{kl}))
+\end{equation}
+and in the numerator portion there are two deviatoric strain trial as well as in denominator its double contraction of deviatoric strain\\
+hence,
+\begin{equation}
+    \frac{\partial q^{t}}{\partial \epsilon^{t}_{kl}}= \frac{2\sqrt{3}G \epsilon^{t}_{kl}}{\sqrt{\epsilon^{t}_{mn}\epsilon^{t}_{mn}}}
+\end{equation}
+
+\pagebreak
+\begin{equation}
+    \frac{\partial \bigtriangleup\lambda}{\epsilon^{t}_{kl}}= \frac{1}{3G+\bar{H}}(\frac{\sqrt{3}G\epsilon^{t}_{kl}\prime}{\sqrt{\epsilon^{t}_{mn}\epsilon^{t}_{mn}}} -\bar{H}\frac{\partial \bar{\epsilon_{p}}}{\epsilon^{t}_{kl}})
+\end{equation}
+here first term in bracket is $\frac{\partial q^{t}}{\partial \epsilon^{t}_{kl}}$
+\begin{equation}
+    \therefore  \frac{\partial \bigtriangleup\lambda}{\epsilon^{t}_{kl}}= \frac{1}{3G+\bar{H}} \frac{\sqrt{3}G\epsilon_{kl}\prime}{\sqrt{\epsilon^{t}_{mn}\epsilon^{t}_{mn}}}
+\end{equation}
+\section{Differentiation of eq. 58 w.r.t $\epsilon_{e(kl)}$}
+\begin{equation}
+    \frac{\partial \sigma_{ij}}{\partial \epsilon^{t}_{kl}}= (1) +(2)+(3)
+\end{equation}
+calculating each component separately:
+\begin{equation}
+    (1)= C_{ijkl}
+\end{equation}
+\begin{equation}
+    (2)= 6G^{2}(\frac{\bigtriangleup\lambda}{q^{t}}\frac{\delta_{ik}\delta_{jl}+\delta_{il}\delta_{jk}}{2}) +\epsilon^{t}_{ij}(\frac{1}{q^{t}(3G+\bar{H})}  \frac{\partial q^{t}}{\partial \epsilon^{t}_{kl}})- \frac{\bigtriangleup\lambda}{(q^{t})^{2}}\frac{\partial q^{t}}{\epsilon^{t}_{kl}}
+\end{equation}
+\begin{equation}
+    
+\end{equation}
+\begin{equation}
+    
+\end{equation}
+\begin{equation}
+    
+\end{equation}
+\begin{equation}
+    
+\end{equation}
+\begin{equation}
+    
+\end{equation}
+\begin{equation}
+    
+\end{equation}
+\begin{equation}
+    
+\end{equation}
+\begin{equation}
+    
+\end{equation}
+\begin{equation}
+    
+\end{equation}
+\begin{equation}
+    
+\end{equation}
+
+\end{document}
